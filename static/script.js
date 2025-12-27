@@ -67,7 +67,8 @@ async function verifyCode() {
             msg.innerText = "Success! Redirecting...";
             
             setTimeout(() => {
-                window.location.href = `/gradio/?user=${encodeURIComponent(userEmail)}`;
+                const modalUrl = "https://modal.com/apps/me240003014/main/deployed/tryon-inference";
+                window.location.href = `${modalUrl}/?user=${encodeURIComponent(userEmail)}`;
             }, 1000);
         } else {
             msg.style.color = "#ef4444";

@@ -1,10 +1,7 @@
 fastapi
 uvicorn
-gradio==5.49.1
 pydantic
 python-dotenv
 pymongo
 resend
 requests
-cloudinary
-pillow
