@@ -1,0 +1,45 @@
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+import gradio as gr
+import os
+import sys
+
+# Add current directory to path so imports work on Vercel
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+import app as gradio_app  # Imports your Gradio UI
+import backend_utils as backend
+
+app = FastAPI()
+
+# --- API Models ---
+class LoginRequest(BaseModel):
+    email: str
+    name: str
+
+class VerifyRequest(BaseModel):
+    email: str
+    code: str
+
+# --- API Routes ---
+@app.post("/api/login")
+async def api_login(req: LoginRequest):
+    success, msg = backend.register_user(req.email, req.name)
+    return {"success": success, "message": msg}
+
+@app.post("/api/verify")
+async def api_verify(req: VerifyRequest):
+    success, msg = backend.verify_code(req.email, req.code)
+    return {"success": success, "message": msg}
+
+# --- Mount Gradio ---
+# Users go here AFTER login
+app = gr.mount_gradio_app(app, gradio_app.demo, path="/gradio")
+
+# --- Mount Static Files (Login Page) ---
+# This must be LAST so it doesn't block /api or /gradio
+# It serves index.html at root "/"
+static_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+if os.path.exists(static_path):
+    app.mount("/", StaticFiles(directory=static_path, html=True), name="static")

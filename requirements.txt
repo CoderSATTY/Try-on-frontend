@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+gradio
+pydantic
+python-dotenv
+pymongo
+resend
+requests
+cloudinary
+pillow
