@@ -67,7 +67,7 @@ async function verifyCode() {
             msg.innerText = "Success! Redirecting...";
             
             setTimeout(() => {
-                const modalUrl = "https://modal.com/apps/me240003014/main/deployed/tryon-inference";
+                const modalUrl = "https://me240003014--tryon-inference-gradio-interface.modal.run";
                 window.location.href = `${modalUrl}/?user=${encodeURIComponent(userEmail)}`;
             }, 1000);
         } else {
